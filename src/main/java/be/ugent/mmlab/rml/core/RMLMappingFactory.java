@@ -209,7 +209,7 @@ public abstract class RMLMappingFactory {
                 // with referencing objects
                 {
                     triplesMapResources.put(s.getSubject(), new StdTriplesMap(
-                            null, null, null, s.getSubject().stringValue()));
+                            null, null, null, s.getSubject().stringValue(),null));
                 }
             }
         }
@@ -281,6 +281,11 @@ public abstract class RMLMappingFactory {
                 triplesMapResources);
         log.debug("[RMLMappingFactory:extractTriplesMap] Current number of created graphMaps : "
                 + graphMaps.size());
+
+
+        log.debug("[RMLMappingFactory:extractTriplesMap] Current number of created graphMaps : "
+                + graphMaps.size());
+        
         // Fill triplesMap
         for (PredicateObjectMap predicateObjectMap : predicateObjectMaps) {
             result.addPredicateObjectMap(predicateObjectMap);
@@ -507,13 +512,15 @@ public abstract class RMLMappingFactory {
                         R2RMLTerm.CHILD);
                 String parent = extractLiteralFromTermMap(r2rmlMappingGraph,
                         jc, R2RMLTerm.PARENT);
+                String guard = extractLiteralFromTermMap(r2rmlMappingGraph,
+                        jc, R2RMLTerm.GUARD);
                 if (parent == null || child == null) {
                     throw new InvalidR2RMLStructureException(
                             "[RMLMappingFactory:extractReferencingObjectMap] "
                             + object.stringValue()
                             + " must have exactly two properties child and parent. ");
                 }
-                result.add(new StdJoinCondition(child, parent));
+                result.add(new StdJoinCondition(child, parent,guard));
             }
         } catch (ClassCastException e) {
             throw new InvalidR2RMLStructureException(
@@ -540,6 +547,8 @@ public abstract class RMLMappingFactory {
                 object, R2RMLTerm.TEMPLATE);
         String languageTag = extractLiteralFromTermMap(r2rmlMappingGraph,
                 object, R2RMLTerm.LANGUAGE);
+        String stringGuard = extractLiteralFromTermMap(r2rmlMappingGraph,
+                object, R2RMLTerm.GUARD);        
         URI termType = (URI) extractValueFromTermMap(r2rmlMappingGraph, object,
                 R2RMLTerm.TERM_TYPE);
         URI dataType = (URI) extractValueFromTermMap(r2rmlMappingGraph, object,
@@ -551,8 +560,8 @@ public abstract class RMLMappingFactory {
         ReferenceIdentifier referenceValue = extractReferenceIdentifier(r2rmlMappingGraph, object);
 
         StdObjectMap result = new StdObjectMap(null, constantValue, dataType,
-                languageTag, stringTemplate, termType, inverseExpression,
-                referenceValue);
+                languageTag, stringTemplate, termType, stringGuard,
+                inverseExpression, referenceValue);
         log.debug("[RMLMappingFactory:extractObjectMap] Extract object map done.");
         return result;
     }
@@ -587,6 +596,7 @@ public abstract class RMLMappingFactory {
                 object, R2RMLTerm.CONSTANT);
         String stringTemplate = extractLiteralFromTermMap(r2rmlMappingGraph,
                 object, R2RMLTerm.TEMPLATE);
+        String stringGuard = extractLiteralFromTermMap(r2rmlMappingGraph,object, R2RMLTerm.GUARD);        
         URI termType = (URI) extractValueFromTermMap(r2rmlMappingGraph, object,
                 R2RMLTerm.TERM_TYPE);
 
@@ -597,7 +607,7 @@ public abstract class RMLMappingFactory {
         ReferenceIdentifier referenceValue = extractReferenceIdentifier(r2rmlMappingGraph, object);
 
         PredicateMap result = new StdPredicateMap(null, constantValue,
-                stringTemplate, inverseExpression, referenceValue, termType);
+                stringTemplate, stringGuard, inverseExpression, referenceValue, termType);
         log.debug("[RMLMappingFactory:extractPredicateMap] Extract predicate map done.");
         return result;
     }
@@ -649,7 +659,8 @@ public abstract class RMLMappingFactory {
                 subjectMap, R2RMLTerm.TERM_TYPE);
         String inverseExpression = extractLiteralFromTermMap(r2rmlMappingGraph,
                 subjectMap, R2RMLTerm.INVERSE_EXPRESSION);
-
+        String stringGuard = extractLiteralFromTermMap(r2rmlMappingGraph,
+                subjectMap, R2RMLTerm.GUARD);
         //MVS: Decide on ReferenceIdentifier
         ReferenceIdentifier referenceValue = extractReferenceIdentifier(r2rmlMappingGraph, subjectMap);
         Set<URI> classIRIs = extractURIsFromTermMap(r2rmlMappingGraph,
@@ -678,7 +689,7 @@ public abstract class RMLMappingFactory {
             }
         }
         SubjectMap result = new StdSubjectMap(ownTriplesMap, constantValue,
-                stringTemplate, termType, inverseExpression, referenceValue,
+                stringTemplate, termType,stringGuard, inverseExpression, referenceValue,
                 classIRIs, graphMaps);
         log.debug("[RMLMappingFactory:extractSubjectMap] Subject map extracted.");
         return result;
@@ -696,6 +707,8 @@ public abstract class RMLMappingFactory {
                 graphMap, R2RMLTerm.CONSTANT);
         String stringTemplate = extractLiteralFromTermMap(r2rmlMappingGraph,
                 graphMap, R2RMLTerm.TEMPLATE);
+        String stringGuard = extractLiteralFromTermMap(r2rmlMappingGraph,
+                graphMap, R2RMLTerm.GUARD);        
         String inverseExpression = extractLiteralFromTermMap(r2rmlMappingGraph,
                 graphMap, R2RMLTerm.INVERSE_EXPRESSION);
 
@@ -706,7 +719,7 @@ public abstract class RMLMappingFactory {
                 graphMap, R2RMLTerm.TERM_TYPE);
 
         GraphMap result = new StdGraphMap(constantValue, stringTemplate,
-                inverseExpression, referenceValue, termType);
+        		stringGuard, inverseExpression, referenceValue, termType);
         log.debug("[RMLMappingFactory:extractPredicateObjectMaps] Graph map extracted.");
         return result;
     }

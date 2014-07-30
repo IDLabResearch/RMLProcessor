@@ -6,6 +6,7 @@ package be.ugent.mmlab.rml.processor.concrete;
 
 import be.ugent.mmlab.rml.core.RMLMappingFactory;
 import be.ugent.mmlab.rml.core.RMLPerformer;
+import be.ugent.mmlab.rml.model.PredicateObjectMap;
 import be.ugent.mmlab.rml.model.TriplesMap;
 import be.ugent.mmlab.rml.processor.AbstractRMLProcessor;
 import com.jayway.jsonpath.JsonPath;
@@ -23,6 +24,7 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openrdf.model.Resource;
 
 /**
  *
@@ -100,5 +102,12 @@ public class JSONPathProcessor extends AbstractRMLProcessor {
         }
         
     }
+
+	@Override
+	public void processPredicateObjectMap(SesameDataSet dataset,
+			Resource subject, PredicateObjectMap pom, Object node) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

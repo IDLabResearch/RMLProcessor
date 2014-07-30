@@ -80,6 +80,7 @@ public interface TermMap {
 	 * curly braces. Only if TEMPLATE_VALUED type.
 	 */
 	public String getStringTemplate();
+	public String getStringGuard();
 
 	/**
 	 * If the term map has an optional rr:termType property, then its term type

@@ -35,6 +35,7 @@ public class StdPredicateObjectMap implements PredicateObjectMap {
 	private Set<ObjectMap> objectMaps;
 	private Set<ReferencingObjectMap> refObjectMaps;
 	private Set<PredicateMap> predicateMaps;
+	private String guardMaps;
 	protected TriplesMap ownTriplesMap;
 	private HashSet<GraphMap> graphMaps;
 
@@ -126,5 +127,16 @@ public class StdPredicateObjectMap implements PredicateObjectMap {
 		this.graphMaps = new HashSet<GraphMap>(graphMaps);
 	}
 
+	@Override
+	public String getGuardMaps() {
+		// TODO Auto-generated method stub
+		return guardMaps;
+	}
+
+	@Override
+	public void setGuardMaps(String guard) {
+	this.guardMaps=guard;
+		
+	}
 
 }

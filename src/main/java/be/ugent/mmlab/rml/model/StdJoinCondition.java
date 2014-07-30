@@ -37,11 +37,13 @@ public class StdJoinCondition implements JoinCondition {
 
 	private String child;
 	private String parent;
+	private String guard;
 
-	public StdJoinCondition(String child, String parent)
+	public StdJoinCondition(String child, String parent,String guard)
 			throws InvalidR2RMLStructureException, InvalidR2RMLSyntaxException {
 		setChild(child);
 		setParent(parent);
+		setGuard(guard);
 	}
 
 	private void setParent(String parent)
@@ -85,6 +87,15 @@ public class StdJoinCondition implements JoinCondition {
 
 	public String getParent() {
 		return parent;
+	}
+	
+	public String getGuard(){
+		return guard;
+	}
+	
+	private void setGuard(String guard) {
+		if (guard != null)
+			this.guard=guard;
 	}
 
 }

@@ -48,14 +48,14 @@ public class StdSubjectMap extends AbstractTermMap implements SubjectMap {
 	protected TriplesMap ownTriplesMap;
 
 	public StdSubjectMap(TriplesMap ownTriplesMap, Value constantValue,
-			String stringTemplate, URI termType, String inverseExpression,
+			String stringTemplate, URI termType, String guard, String inverseExpression,
 			ReferenceIdentifier referenceValue, Set<URI> classIRIs, Set<GraphMap> graphMaps)
 			throws R2RMLDataError, InvalidR2RMLStructureException,
 			InvalidR2RMLSyntaxException {
 		// No Literal term type
 		// ==> No datatype
 		// ==> No specified language tag
-		super(constantValue, null, null, stringTemplate, termType,
+		super(constantValue, null, null, stringTemplate, termType,guard,
 				inverseExpression, referenceValue);
 		setClassIRIs(classIRIs);
 		setGraphMaps(graphMaps);

@@ -79,7 +79,7 @@
         <dependency>
             <groupId>net.antidot</groupId>
             <artifactId>db2triples</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
+            <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>com.sun.org.apache</groupId>
@@ -103,6 +103,11 @@
             <version>2.0.1</version>
             <type>jar</type>
         </dependency>
+	<dependency>
+		<groupId>net.sourceforge.jeval</groupId>
+		<artifactId>jeval</artifactId>
+		<version>0.9.4</version>
+	</dependency>
     </dependencies>
 
 </project>

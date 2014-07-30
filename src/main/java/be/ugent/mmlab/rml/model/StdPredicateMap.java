@@ -44,7 +44,7 @@ public class StdPredicateMap extends AbstractTermMap implements TermMap,
 	private PredicateObjectMap predicateObjectMap;
 
 	public StdPredicateMap(PredicateObjectMap predicateObjectMap,
-			Value constantValue, String stringTemplate,
+			Value constantValue, String stringTemplate, String guard,
 			String inverseExpression, ReferenceIdentifier referenceValue, URI termType)
 			throws R2RMLDataError, InvalidR2RMLStructureException,
 			InvalidR2RMLSyntaxException {
@@ -53,7 +53,7 @@ public class StdPredicateMap extends AbstractTermMap implements TermMap,
 		// ==> No specified language tag
 		// No class IRI
 		super(constantValue, null, null, stringTemplate, termType,
-				inverseExpression, referenceValue);
+				guard, inverseExpression, referenceValue);
 		setPredicateObjectMap(predicateObjectMap);
 	}
 
