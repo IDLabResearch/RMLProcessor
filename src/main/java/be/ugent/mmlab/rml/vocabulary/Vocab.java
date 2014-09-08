@@ -98,6 +98,7 @@ public class Vocab {
         GRAPH_MAP("graphMap"),
         GRAPH_COLUMN("graphColumn"),
         GRAPH_TEMPLATE("graphTemplate"),
+        GUARD("guard"),
         INVERSE_EXPRESSION("inverseExpression"),
         JOIN_CONDITION("joinCondition"),
         LANGUAGE("language"),

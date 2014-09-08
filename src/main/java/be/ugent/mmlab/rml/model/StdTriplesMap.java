@@ -36,14 +36,21 @@ public class StdTriplesMap implements TriplesMap {
 	private SubjectMap subjectMap;
 	private LogicalSource logicalSource;
 	private String name;
+	private String guard;
 
 	public StdTriplesMap(LogicalSource logicalSource,
 			Set<StdPredicateObjectMap> predicateObjectMaps,
-			StdSubjectMap subjectMap, String name) throws InvalidR2RMLStructureException {
+			StdSubjectMap subjectMap, String name,String guard) throws InvalidR2RMLStructureException {
 		setSubjectMap(subjectMap);
 		setLogicalSource(logicalSource);
 		setPredicateObjectMap(predicateObjectMaps);
 		setName(name);
+		setGuardObjectMap(guard);
+	}
+
+	private void setGuardObjectMap(String guard) {
+		this.guard=guard;
+		
 	}
 
 	public void setLogicalSource(LogicalSource logicalTable) {
@@ -105,5 +112,6 @@ public class StdTriplesMap implements TriplesMap {
 			this.name = name;
 		
 	}
+
 
 }

@@ -44,7 +44,7 @@ public class StdGraphMap extends AbstractTermMap implements GraphMap {
 
 
 	public StdGraphMap(Value constantValue,
-			String stringTemplate, String inverseExpression,
+			String stringTemplate, String guard, String inverseExpression,
 			ReferenceIdentifier referenceValue, URI termType) throws R2RMLDataError,
 			InvalidR2RMLStructureException, InvalidR2RMLSyntaxException {
 		// No Literal term type
@@ -52,7 +52,7 @@ public class StdGraphMap extends AbstractTermMap implements GraphMap {
 		// ==> No specified language tag
 		// Only termType possible : IRI => by default
 		super(constantValue, null, null, stringTemplate,
-				termType, inverseExpression, referenceValue);
+				termType,guard, inverseExpression, referenceValue);
 		
 	}
 

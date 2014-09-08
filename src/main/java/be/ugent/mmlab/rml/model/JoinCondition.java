@@ -41,5 +41,7 @@ public interface JoinCondition {
 	 * Parent reference must be a reference in the language defined by the parent triples map and exist there.  
 	 */
 	public String getParent();
+	
+	public String getGuard();
 
 }

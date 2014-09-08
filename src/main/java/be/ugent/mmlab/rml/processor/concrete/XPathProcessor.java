@@ -2,6 +2,7 @@ package be.ugent.mmlab.rml.processor.concrete;
 
 import be.ugent.mmlab.rml.core.RMLMappingFactory;
 import be.ugent.mmlab.rml.core.RMLPerformer;
+import be.ugent.mmlab.rml.model.PredicateObjectMap;
 import be.ugent.mmlab.rml.model.TriplesMap;
 import be.ugent.mmlab.rml.processor.AbstractRMLProcessor;
 import be.ugent.mmlab.rml.xml.XOMBuilder;
@@ -25,6 +26,7 @@ import nu.xom.XPathContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jaxen.saxpath.SAXPathException;
+import org.openrdf.model.Resource;
 import org.xml.sax.InputSource;
 
 /**
@@ -134,4 +136,11 @@ public class XPathProcessor extends AbstractRMLProcessor {
     public List<String> extractValueFromNode(Object node, String expression) {
         return extractValueFromNode((Node) node, expression);
     }
+
+	@Override
+	public void processPredicateObjectMap(SesameDataSet dataset,
+			Resource subject, PredicateObjectMap pom, Object node) {
+		// TODO Auto-generated method stub
+		
+	}
 }

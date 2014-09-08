@@ -62,10 +62,11 @@ public abstract class AbstractTermMap implements TermMap {
         private String stringTemplate;
         private ReferenceIdentifier referenceValue;
         private String inverseExpression;
+        private String stringGuard;
 
         protected AbstractTermMap(Value constantValue, URI dataType,
                 String languageTag, String stringTemplate, URI termType,
-                String inverseExpression, ReferenceIdentifier referenceValue)
+                String stringGuard, String inverseExpression, ReferenceIdentifier referenceValue)
                 throws R2RMLDataError, InvalidR2RMLStructureException,
                 InvalidR2RMLSyntaxException {
 
@@ -73,6 +74,7 @@ public abstract class AbstractTermMap implements TermMap {
                 setReferenceValue(referenceValue);
                 setLanguageTag(languageTag);
                 setStringTemplate(stringTemplate);
+                setStringGuard(stringGuard);
                 setTermType(termType, dataType);
                 setDataType(dataType);
 
@@ -204,6 +206,14 @@ public abstract class AbstractTermMap implements TermMap {
                 }
 
                 this.stringTemplate = stringTemplate;
+        }
+        
+        private void setStringGuard(String stringGuard)
+                throws InvalidR2RMLSyntaxException, InvalidR2RMLStructureException {
+                // he value of the rr:template property MUST be a
+                // valid string template.
+
+                this.stringGuard = stringGuard;
         }
 
         /**
@@ -358,6 +368,10 @@ public abstract class AbstractTermMap implements TermMap {
         public String getStringTemplate() {
                 return stringTemplate;
         }
+        
+        public String getStringGuard() {
+            return stringGuard;
+    }       
 
         public TermMapType getTermMapType() {
                 if (constantValue != null) {

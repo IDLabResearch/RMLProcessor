@@ -103,6 +103,11 @@
             <version>2.0.1</version>
             <type>jar</type>
         </dependency>
+	<dependency>
+		<groupId>net.sourceforge.jeval</groupId>
+		<artifactId>jeval</artifactId>
+		<version>0.9.4</version>
+	</dependency>
     </dependencies>
 
 </project>
