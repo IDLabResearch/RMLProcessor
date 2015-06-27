@@ -11,6 +11,7 @@ import be.ugent.mmlab.rml.xml.XOMBuilder;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +20,7 @@ import jlibs.xml.DefaultNamespaceContext;
 import jlibs.xml.Namespaces;
 import jlibs.xml.sax.dog.NodeItem;
 import jlibs.xml.sax.dog.XMLDog;
+import jlibs.xml.sax.dog.XPathResults;
 import jlibs.xml.sax.dog.expr.Expression;
 import jlibs.xml.sax.dog.expr.InstantEvaluationListener;
 import net.antidot.semantic.rdf.model.impl.sesame.SesameDataSet;
@@ -50,43 +52,39 @@ public class XPathProcessor extends AbstractRMLProcessor {
 
     private XPathContext nsContext = new XPathContext();
     
-    private DefaultNamespaceContext get_namespaces (){
-        //Get the namespaces from xml file?
+    private DefaultNamespaceContext get_namespaces() {
+        List<String> list = new ArrayList<>();
+
         DefaultNamespaceContext dnc = new DefaultNamespaceContext();
-        
         this.nsContext.addNamespace("xsd", Namespaces.URI_XSD);
         dnc.declarePrefix("xsd", Namespaces.URI_XSD);
-        this.nsContext.addNamespace("gml", "http://www.opengis.net/gml");
-        dnc.declarePrefix("gml", "http://www.opengis.net/gml");
-        this.nsContext.addNamespace("agiv", "http://www.agiv.be/agiv");
-        dnc.declarePrefix("agiv", "http://www.agiv.be/agiv");
-            
-        this.nsContext.addNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        dnc.declarePrefix("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        this.nsContext.addNamespace("simcore", "http://www.lbl.gov/namespaces/Sim/SimModelCore");
-        dnc.declarePrefix("simcore", "http://www.lbl.gov/namespaces/Sim/SimModelCore");
-        this.nsContext.addNamespace("simres", "http://www.lbl.gov/namespaces/Sim/ResourcesGeneral");
-        dnc.declarePrefix("simres", "http://www.lbl.gov/namespaces/Sim/ResourcesGeneral");
-        this.nsContext.addNamespace("simgeom", "http://www.lbl.gov/namespaces/Sim/ResourcesGeometry");
-        dnc.declarePrefix("simgeom", "http://www.lbl.gov/namespaces/Sim/ResourcesGeometry");
-        this.nsContext.addNamespace("simbldg", "http://www.lbl.gov/namespaces/Sim/BuildingModel");
-        dnc.declarePrefix("simbldg", "http://www.lbl.gov/namespaces/Sim/BuildingModel");
-        this.nsContext.addNamespace("simmep", "http://www.lbl.gov/namespaces/Sim/MepModel");
-        dnc.declarePrefix("simmep", "http://www.lbl.gov/namespaces/Sim/MepModel");
         this.nsContext.addNamespace("simmodel", "http://www.lbl.gov/namespaces/Sim/Model");
         dnc.declarePrefix("simmodel", "http://www.lbl.gov/namespaces/Sim/Model");
 
-       //spc
-       this.nsContext.addNamespace("mml","http://www.w3.org/1998/Math/MathML");
-       dnc.declarePrefix("mml", "http://www.w3.org/1998/Math/MathML");
-       this.nsContext.addNamespace("xlink", "http://www.w3.org/1999/xlink");
-       dnc.declarePrefix("xlink", "http://www.w3.org/1999/xlink");
-       this.nsContext.addNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-       dnc.declarePrefix("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-       this.nsContext.addNamespace("tp", "http://www.plazi.org/taxpub");
-       dnc.declarePrefix("tp", "http://www.plazi.org/taxpub");
-    
-       return dnc;
+        XMLDog dog = new XMLDog(dnc);
+        try {
+            Expression xpath = dog.addXPath("/*/namespace::*[name()]");
+            if (map != null) {
+                String source = map.getLogicalSource().getIdentifier().toString();
+                File sourceFile = new File(source);
+                log.error("source " + sourceFile.getAbsolutePath());
+                
+                
+                XPathResults results = dog.sniff(new InputSource(source));
+                if (results != null) {
+                    Collection<NodeItem> result3 = (Collection<NodeItem>) results.getResult(xpath);
+                    for (NodeItem res : result3) {
+                        this.nsContext.addNamespace(res.qualifiedName, res.value);
+                        dnc.declarePrefix(res.qualifiedName, res.value);
+                    }
+                }
+            }
+        } catch (SAXPathException ex) {
+            Logger.getLogger(XPathProcessor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XPathException ex) {
+            Logger.getLogger(XPathProcessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return dnc;
     }
     
     private String replace (Node node, String expression){

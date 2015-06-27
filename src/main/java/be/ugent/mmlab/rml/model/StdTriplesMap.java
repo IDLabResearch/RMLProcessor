@@ -90,7 +90,7 @@ public class StdTriplesMap implements TriplesMap {
 		if (predicateObjectMap != null)
 			predicateObjectMaps.add(predicateObjectMap);
 	}
-
+        
 	public String getName() {
 		return this.name;
 	}
